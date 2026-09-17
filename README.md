@@ -1,16 +1,145 @@
-# React + Vite
+# Bubble Pop Interaction Kit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A playful React UI starter for creating floating, colorful bubbles with pop animations, particle bursts, and a polished neon aesthetic.
 
-Currently, two official plugins are available:
+This project is designed for product launches, landing pages, UI mockups, portfolios, and creative web interactions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Overview
 
-## React Compiler
+Bubble Pop Interaction Kit gives you a ready-made interactive effect that feels premium and modern without needing a full custom animation system from scratch.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+It includes:
+- floating text bubbles
+- click-to-pop interactions
+- colorful bubble variations
+- particle splash on pop
+- local storage persistence
+- easy styling customization
+- Vite + React setup
 
-## Expanding the ESLint configuration
+## Why this project
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This starter is ideal if you want to add a fun and memorable interaction to a landing page or product mockup without spending hours rebuilding the animation and layout logic.
+
+It is useful for:
+- SaaS product demos
+- portfolio pieces
+- creative web experiments
+- interactive marketing pages
+- UI concept mockups
+
+## Demo
+
+Run the app locally with:
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the local Vite URL shown in the terminal.
+
+## Features
+
+- Randomized bubble placement inside the play area
+- Custom text entry for each new bubble
+- Smooth floating motion
+- Bubble click pop animation
+- Particle burst effect
+- Local storage persistence so bubbles remain after refresh
+- Responsive layout for modern screens
+- Easy styling adjustments via CSS
+
+## Tech Stack
+
+- React
+- Vite
+- JavaScript
+- CSS
+
+## Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Open the local URL in your browser.
+
+## Usage
+
+1. Type any text into the input field.
+2. Click the Add Bubble button.
+3. A new bubble is generated in the play area.
+4. Click a bubble to pop it.
+5. The bubble list is saved in local storage automatically.
+
+## Project Structure
+
+```bash
+src/
+  App.jsx
+  App.css
+  components/
+    Audio.js
+    Bubble.jsx
+    BubbleArea.jsx
+  utils/
+    getPosition.js
+    particleSplash.js
+public/
+index.html
+package.json
+vite.config.js
+```
+
+## Customization
+
+You can customize the project in a few key files:
+
+- `src/App.css` — overall layout, colors, button styling, background effects
+- `src/App.jsx` — main app logic and input handling
+- `src/utils/getPosition.js` — bubble placement rules
+- `src/utils/particleSplash.js` — pop particle generation
+
+## Build for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+The build output will be generated in the `dist/` folder.
+
+## License
+
+This project is provided for personal and commercial use as a starter UI interaction. If you plan to sell or redistribute it, please review your local licensing requirements and ensure the assets and code fit your intended usage.
+
+## Notes
+
+This project is designed as a starter kit and can be easily adapted into a larger product or interactive landing page.
+
+It is intentionally simple, readable, and easy to modify so you can extend it with your own branding, color palettes, or interaction logic.
+
+## Future Improvements
+
+Possible enhancements include:
+- configurable bubble themes
+- drag-and-drop bubbles
+- preset bubble libraries
+- improved accessibility
+- reusable component extraction
+- multi-page product demo variations
+
+## Author
+
+Built as a starter UI interaction for creative product demos and digital storefronts.
