@@ -109,10 +109,6 @@ function App() {
           </div>
 
           <div className="price-row">
-            <div className="price-box">
-              <span>Starting at</span>
-              <strong>$19</strong>
-            </div>
           </div>
         </div>
 
