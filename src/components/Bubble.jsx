@@ -1,3 +1,10 @@
+/**
+ * @param {Object} props
+ * @param {{id: string|number, content: string, position: {left: number, top: number}, colorIndex: number, duration: number, delay: number}} props.item
+ * @param {number} props.index
+ * @param {number|null} props.bursting
+ * @param {(index: number, event: React.MouseEvent<HTMLDivElement>) => void} props.onPop
+ */
 function Bubble({ item, index, bursting, onPop }) {
   return (
     <div

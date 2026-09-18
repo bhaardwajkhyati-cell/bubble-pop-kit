@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import playPopSound from './components/Audio';
 import BubbleArea from './components/BubbleArea';
@@ -6,6 +6,9 @@ import { getPosition } from './utils/getPosition';
 import { triggerParticleSplash } from './utils/particleSplash';
 
 function App() {
+  const popTimers = useRef(new Set());
+  const particleCleanups = useRef(new Set());
+  const bubbleAreaSizeRef = useRef({ width: 760, height: 500 });
   const [items, setItems] = useState(() => {
     const saved = localStorage.getItem('bubble-pop-kit-items');
     return saved ? JSON.parse(saved) : [];
@@ -19,14 +22,46 @@ function App() {
   }, [items]);
 
   useEffect(() => {
+    const timers = popTimers.current;
+    const cleanups = particleCleanups.current;
     const updateBubbleAreaSize = () => {
       const bubbleArea = document.querySelector('.bubble-area');
       if (!bubbleArea) return;
 
       const rect = bubbleArea.getBoundingClientRect();
-      setBubbleAreaSize({
+      const nextSize = {
         width: rect.width,
         height: rect.height,
+      };
+
+      if (bubbleAreaSizeRef.current.width === nextSize.width && bubbleAreaSizeRef.current.height === nextSize.height) return;
+
+      bubbleAreaSizeRef.current = nextSize;
+      setBubbleAreaSize(nextSize);
+      setItems(previousItems => {
+        const positions = [];
+        return previousItems.map(item => {
+          const position = getPosition({
+            existingPositions: positions,
+            itemSize: 90,
+            containerWidth: nextSize.width,
+            containerHeight: nextSize.height,
+          });
+
+          if (position) {
+            positions.push(position);
+            return { ...item, position };
+          }
+
+          const maxLeft = Math.max(18, nextSize.width - 90 - 18);
+          const maxTop = Math.max(18, nextSize.height - 90 - 18);
+          const clampedPosition = {
+            left: Math.min(Math.max(18, item.position.left), maxLeft),
+            top: Math.min(Math.max(18, item.position.top), maxTop),
+          };
+          positions.push(clampedPosition);
+          return { ...item, position: clampedPosition };
+        });
       });
     };
 
@@ -44,6 +79,8 @@ function App() {
     return () => {
       if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener('resize', updateBubbleAreaSize);
+      timers.forEach(clearTimeout);
+      cleanups.forEach(cleanup => cleanup());
     };
   }, []);
 
@@ -60,6 +97,8 @@ function App() {
         containerWidth: bubbleAreaSize.width,
         containerHeight: bubbleAreaSize.height,
       });
+
+      if (!position) return prevItems;
 
       return [...prevItems, {
         id: Date.now() + Math.random(),
@@ -78,17 +117,21 @@ function App() {
     playPopSound();
     setBursting(index);
 
-    triggerParticleSplash({
+    const cleanupParticles = triggerParticleSplash({
       sourceElement: e.currentTarget,
       containerElement: document.querySelector(".bubble-area"),
       colorIndex: index,
       count: 10,
     });
+    particleCleanups.current.add(cleanupParticles);
+    setTimeout(() => particleCleanups.current.delete(cleanupParticles), 650);
 
-    setTimeout(() => {
+    const popTimer = setTimeout(() => {
       setItems(prevItems => prevItems.filter((_, i) => i !== index));
       setBursting(null);
+      popTimers.current.delete(popTimer);
     }, 400);
+    popTimers.current.add(popTimer);
   };
 
   return (

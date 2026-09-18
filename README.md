@@ -82,6 +82,76 @@ npm run dev
 4. Click a bubble to pop it.
 5. The bubble list is saved in local storage automatically.
 
+## Public API
+
+### `Bubble`
+
+Renders one interactive bubble.
+
+```js
+<Bubble item={item} index={0} bursting={null} onPop={handlePop} />
+```
+
+`item` must have this shape:
+
+```js
+{
+  id: string | number,
+  content: string,
+  position: { left: number, top: number },
+  colorIndex: number,
+  duration: number,
+  delay: number
+}
+```
+
+- `index` — zero-based item index.
+- `bursting` — index currently playing the burst animation, or `null`.
+- `onPop(index, event)` — called when the bubble is clicked.
+
+### `BubbleArea`
+
+```js
+<BubbleArea
+  items={items}
+  bursting={null}
+  onPop={handlePop}
+  emptyMessage="Nothing here yet"
+/>
+```
+
+- `items` — array of bubble items.
+- `bursting` — active burst index or `null`.
+- `onPop(index, event)` — bubble click handler.
+- `emptyMessage` — optional empty-state text. Defaults to `Nothing here yet 🫧`.
+
+### `getPosition(options)`
+
+Returns `{ left, top }` for a non-overlapping bubble, or `null` when the area is full.
+
+- `existingPositions` — required array of `{ left, top }` positions.
+- `itemSize` — defaults to `90`.
+- `containerWidth` and `containerHeight` — measured area dimensions.
+- `minGap` — defaults to `10`.
+- `edgePadding` — defaults to `18`.
+
+### `triggerParticleSplash(options)`
+
+Creates particles and returns a cleanup function.
+
+- `sourceElement` and `containerElement` — required DOM elements.
+- `colorIndex` — defaults to `0`.
+- `count` — defaults to `10`.
+
+### `playPopSound(options)`
+
+Plays a short pop sound. Audio errors are ignored when audio is unavailable or blocked.
+
+- `startFreq` — defaults to `800` Hz.
+- `endFreq` — defaults to `200` Hz.
+- `duration` — defaults to `0.08` seconds.
+- `volume` — defaults to `0.8`.
+
 ## Project Structure
 
 ```bash

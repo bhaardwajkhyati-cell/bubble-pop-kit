@@ -364,6 +364,46 @@ input::placeholder {
 .burst {
   animation: burst 0.4s forwards !important;
 }
+
+@media (max-width: 700px) {
+  .container {
+    width: min(100% - 20px, 1200px);
+    padding-top: 28px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .hero-copy {
+    padding-right: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 11vw, 3.4rem);
+  }
+
+  .input-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .bubble-area {
+    height: 60vh;
+    min-height: 360px;
+  }
+
+  .empty-hint {
+    width: calc(100% - 32px);
+    white-space: normal;
+  }
+}
+
 /* ─── particles ─── */
 .particle {
   position: absolute;

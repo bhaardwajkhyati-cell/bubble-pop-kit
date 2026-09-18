@@ -1,6 +1,20 @@
+/**
+ * Adds animated particles around a source element and returns an idempotent cleanup function.
+ *
+ * @param {Object} options
+ * @param {HTMLElement} options.sourceElement
+ * @param {HTMLElement} options.containerElement
+ * @param {number} [options.colorIndex=0]
+ * @param {number} [options.count=10]
+ * @returns {() => void}
+ */
 export function triggerParticleSplash({ sourceElement, containerElement, colorIndex = 0, count = 10 }) {
+  if (!sourceElement || !containerElement) return () => {};
+
   const rect = sourceElement.getBoundingClientRect();
   const area = containerElement.getBoundingClientRect();
+  const timers = [];
+  const particles = [];
   const cx = rect.left - area.left + rect.width  / 2;
   const cy = rect.top  - area.top  + rect.height / 2;
 
@@ -16,6 +30,12 @@ export function triggerParticleSplash({ sourceElement, containerElement, colorIn
     particle.style.setProperty("--ty", Math.sin(angle) * dist + "px");
 
     containerElement.appendChild(particle);
-    setTimeout(() => particle.remove(), 600);
+    particles.push(particle);
+    timers.push(setTimeout(() => particle.remove(), 600));
   }
+
+  return () => {
+    timers.forEach(clearTimeout);
+    particles.forEach(particle => particle.remove());
+  };
 }
